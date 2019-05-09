@@ -8,15 +8,17 @@
 //   scene.SetExposure(0.5f);
 // }
 
-int windowInit()
-{
- //Load the font   
-  Game game;
-  game.run();
-  return 0;
-}
+// int windowInit()
+// {
+
+// }
 
 int main()
 {
-  windowInit();
+  // windowInit();
+   //Load the font   
+  Game game;
+  game.run();
+  
+  return 0;
 }

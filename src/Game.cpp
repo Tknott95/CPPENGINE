@@ -35,7 +35,6 @@ static bool mouse_clicked = false;
 static bool show_cheats = false;
 static GameMode game_mode = MAIN_MENU;
 
-void Draw_Cuboid(float,float,float);
 
 // MOUSE FUNCTIONS
 void LockMouse(sf::RenderWindow& window) {
@@ -61,25 +60,36 @@ void UnlockMouse(sf::RenderWindow& window) {
 void Game::initWindow()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+
+    //GL settings
+    sf::ContextSettings settings;
+    
+    settings.depthBits = 64;
+    // settings.stencilBits = 8;
+    settings.antialiasingLevel = 4;
+    settings.majorVersion = 3;
+    settings.minorVersion = 0;
    
-    this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080, 64), "TheZeonTex");
+    this->window = new sf::RenderWindow(sf::VideoMode(3000, 1920, 64), "TheZeonTex");
     this->window->setVerticalSyncEnabled(true);
     this->window->setKeyRepeatEnabled(false);
     this->window->requestFocus();
     //window.setVerticalSyncEnabled(true);
 
-    //GL settings
-    sf::ContextSettings settings;
-    
-    settings.depthBits = 24;
-    settings.stencilBits = 8;
-    settings.antialiasingLevel = 4;
-    settings.majorVersion = 3;
-    settings.minorVersion = 0;
+ 
+
+     const sf::Glsl::Vec2 window_res((float)this->window->getSize().x, (float)this->window->getSize().y);
+    //  shader.setUniform("iResolution", window_res);
+    //  scene.Write(shader);
+
+  //Create screen rectangle
+  sf::RectangleShape rect;
+  rect.setSize(window_res);
+  rect.setPosition(0, 0);
 
 
     // @TODO: RESOLUTION SELECTION SCREEN
-    const sf::Vector2i screen_center(1920 / 2, 1080/ 2);
+    const sf::Vector2i screen_center(3000/2, 1920/ 2);
     //const sf::Vector2i screen_center(resolution->width / 2, resolution->height / 2);
 
     // glEnable(GL_TEXTURE_2D);
@@ -95,12 +105,11 @@ void Game::initWindow()
    // Configure the viewport (the same size as the window)
     glViewport(0, 0, this->window->getSize().x, this->window->getSize().y);
 
-//prepare OpenGL surface for HSR 
+    //prepare OpenGL surface for HSR 
     // glClearDepth(1.f); 
     // glClearColor(0.3f, 0.3f, 0.3f, 0.f); //background colour
     // glEnable(GL_DEPTH_TEST); 
     // glDepthMask(GL_TRUE);
-   
     //// Setup a perspective projection & Camera position 
     glMatrixMode(GL_PROJECTION); 
     glLoadIdentity(); 
@@ -207,59 +216,55 @@ glEnd();
     shape.setFillColor(sf::Color::Blue);
     text.setFillColor(sf::Color::Magenta);
 
-     
-    float vertices[] = {
-     0.0f,  0.5f, // Vertex 1 (X, Y)
-     0.5f, -0.5f, // Vertex 2 (X, Y)
-    -0.5f, -0.5f  // Vertex 3 (X, Y)
-} ;
-    
-      
 
-       
+           //    this->window->draw(text);
 
-        
 
 		Draw_Cuboid(.2,.5,0.50);
 
 		glTranslatef(0,0.40,0);//move everyting after this line by 40 units along y-axis
 		glRotatef(ang*5,0,0,1); //spin about z-axis
 
-		Draw_Cuboid(-0.10,0.10,0.10);
+		Draw_Cuboid(-.0910,0.10,0.10);
 		
 		glTranslatef(0,0.10,0);//move everyting after this line by 40 units along y-axis
 
 		glRotatef(ang*5,0,0,1); //spin about z-axis
 
-		Draw_Cuboid(0.10,0.10,0.10);
+    glTranslatef(-.5, -0.2, .002);
 
-		glTranslatef(0,0.10,0);//move everyting after this line by 40 units along y-axis
+		Draw_Cuboid(0.10,0.17,0.17);
+
 
 		glRotatef(ang*5,0,0,1); //spin about z-axis
 
 		Draw_Cuboid(.0100,0.10,0.10);
 		int i=0; 
-		for (i = 1; i <= 44; i++) 
+		for (i = 1; i <= 5944; i++) 
         {
-			
-			test(ang*10);
+			Draw_Cuboid(.0100,0.10,0.10);
+
+			test(ang/10);
 
 		} 
 
         // this->window->clear(sf::Color::Cyan);
-        
-        // this->window->draw(shape);
-   
-        // this->window->draw(text);
+        this->window->pushGLStates();
+
+        this->window->draw(text);
+   this->window->popGLStates();
+        this->window->setActive(true);
         // glDrawPixels(text);
-        this->window->display();
          
 }
 
 void Game::run()
 {
+      sf::Clock clock;
+
   float smooth_fps = target_fps;
   float lag_ms = 0.0f;
+
  while (this->window->isOpen())
     {
         float mouse_wheel = 0.0f;
@@ -267,19 +272,20 @@ void Game::run()
         
         this->update();
         this->render();
+        this->window->display();
+
  
     }
 }
 
 
 void test(float ang) {
-    		Draw_Cuboid(0.10,0.10,0.10);
 
-		glTranslatef(0.010,0.0,-0.010);//move everyting after this line by 40 units along y-axis
+		glTranslatef(0.010,0.02,-0.010);//move everyting after this line by 40 units along y-axis
 		glRotatef(ang*0.168,ang*0.168,-0,1); //spin about z-axis
 		// glTranslatef(0.00,-0.10,0);//move everyting after this line by 40 units along y-axis
 
-		Triangle(0.010,0.010,0.010);
+		// Triangle(0.010,0.010,0.010);
 		Draw_Cuboid(0.10,0.10,0.10);
 
 

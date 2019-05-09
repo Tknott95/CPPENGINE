@@ -4,7 +4,6 @@
 #include "Draw.cpp"
 #include "Camera.cpp"
 #include <math.h>
-#include <GLFW/glfw3.h>
   
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
