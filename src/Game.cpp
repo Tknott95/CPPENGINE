@@ -96,10 +96,10 @@ void Game::initWindow()
     glViewport(0, 0, this->window->getSize().x, this->window->getSize().y);
 
 //prepare OpenGL surface for HSR 
-    glClearDepth(1.f); 
-    glClearColor(0.3f, 0.3f, 0.3f, 0.f); //background colour
-    glEnable(GL_DEPTH_TEST); 
-    glDepthMask(GL_TRUE); 
+    // glClearDepth(1.f); 
+    // glClearColor(0.3f, 0.3f, 0.3f, 0.f); //background colour
+    // glEnable(GL_DEPTH_TEST); 
+    // glDepthMask(GL_TRUE);
    
     //// Setup a perspective projection & Camera position 
     glMatrixMode(GL_PROJECTION); 
@@ -220,12 +220,12 @@ glEnd();
 
         
 
-		Draw_Cuboid(2,5,0.50);
+		Draw_Cuboid(.2,.5,0.50);
 
 		glTranslatef(0,0.40,0);//move everyting after this line by 40 units along y-axis
 		glRotatef(ang*5,0,0,1); //spin about z-axis
 
-		Draw_Cuboid(0.10,0.10,0.10);
+		Draw_Cuboid(-0.10,0.10,0.10);
 		
 		glTranslatef(0,0.10,0);//move everyting after this line by 40 units along y-axis
 
@@ -237,7 +237,7 @@ glEnd();
 
 		glRotatef(ang*5,0,0,1); //spin about z-axis
 
-		Draw_Cuboid(100,0.10,0.10);
+		Draw_Cuboid(.0100,0.10,0.10);
 		int i=0; 
 		for (i = 1; i <= 44; i++) 
         {
@@ -251,6 +251,7 @@ glEnd();
         // this->window->draw(shape);
    
         // this->window->draw(text);
+        // glDrawPixels(text);
         this->window->display();
          
 }
@@ -272,6 +273,8 @@ void Game::run()
 
 
 void test(float ang) {
+    		Draw_Cuboid(0.10,0.10,0.10);
+
 		glTranslatef(0.010,0.0,-0.010);//move everyting after this line by 40 units along y-axis
 		glRotatef(ang*0.168,ang*0.168,-0,1); //spin about z-axis
 		// glTranslatef(0.00,-0.10,0);//move everyting after this line by 40 units along y-axis
