@@ -6,7 +6,9 @@
 #include <SFML/Window.hpp>
 #include <math.h> 
 #include <iostream> 
+#include "Draw.cpp"
 
+void test(float);
 // CONSTANTS
 static const float mouse_sensitivity = 0.005f;
 static const float wheel_sensitivity = 0.2f;
@@ -58,20 +60,22 @@ void UnlockMouse(sf::RenderWindow& window) {
 // GAME FUNCTIONS
 void Game::initWindow()
 {
-    this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080, 32), "TheZeonTex");
-    this->window->setVerticalSyncEnabled(true);
-    this->window->setKeyRepeatEnabled(false);
-    this->window->requestFocus();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+   
+    this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080, 64), "TheZeonTex");
+    // this->window->setVerticalSyncEnabled(true);
+    // this->window->setKeyRepeatEnabled(false);
+    // this->window->requestFocus();
     //window.setVerticalSyncEnabled(true);
 
     //GL settings
     sf::ContextSettings settings;
     
-    // settings.depthBits = 24;
-    // settings.stencilBits = 8;
-    // settings.antialiasingLevel = 4;
-    // settings.majorVersion = 3;
-    // settings.minorVersion = 0;
+    settings.depthBits = 24;
+    settings.stencilBits = 8;
+    settings.antialiasingLevel = 4;
+    settings.majorVersion = 3;
+    settings.minorVersion = 0;
 
 
     // @TODO: RESOLUTION SELECTION SCREEN
@@ -91,25 +95,22 @@ void Game::initWindow()
    // Configure the viewport (the same size as the window)
     glViewport(0, 0, this->window->getSize().x, this->window->getSize().y);
 
-    // Setup a perspective projection
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+//prepare OpenGL surface for HSR 
+    glClearDepth(1.f); 
+    glClearColor(0.3f, 0.3f, 0.3f, 0.f); //background colour
+    glEnable(GL_DEPTH_TEST); 
+    glDepthMask(GL_TRUE); 
+   
+    //// Setup a perspective projection & Camera position 
+    glMatrixMode(GL_PROJECTION); 
+    glLoadIdentity(); 
+
+	glMatrixMode(GL_MODELVIEW); // reset modelview matrix
+	glLoadIdentity();
 
 
 }
 
-
-void perspectiveGL( GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar )
-{
-    const GLdouble pi = 3.1415926535897932384626433832795;
-    GLdouble fW, fH;
-
-    //fH = tan( (fovY / 2) / 180 * pi ) * zNear;
-    fH = tan( fovY / 360 * pi ) * zNear;
-    fW = fH * aspect;
-
-    glFrustum( -fW, fW, -fH, fH, zNear, zFar );
-}
 
 Game::Game()
 {
@@ -163,11 +164,22 @@ void Game::update()
 
 void Game::render()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //   
+    //     // Apply some transformations 
+        glMatrixMode(GL_MODELVIEW); 
+        glLoadIdentity(); 
     
-// Apply some transformations
-glMatrixMode(GL_MODELVIEW);
-glLoadIdentity();
+    static float ang=0.0;
+
+
+		glRotatef(ang,1,0,0); //spin about x-axis
+		glRotatef(ang*2,0,1,0);//spin about y-axis
+		
+
+		ang+=0.0314f;
+
+
 
 
 
@@ -202,16 +214,43 @@ glEnd();
     -0.5f, -0.5f  // Vertex 3 (X, Y)
 } ;
     
-        glDrawBuffer(1);
       
+
+       
+
+        
+
+		Draw_Cuboid(2,5,0.50);
+
+		glTranslatef(0,0.40,0);//move everyting after this line by 40 units along y-axis
+		glRotatef(ang*5,0,0,1); //spin about z-axis
+
+		Draw_Cuboid(0.10,0.10,0.10);
+		
+		glTranslatef(0,0.10,0);//move everyting after this line by 40 units along y-axis
+
+		glRotatef(ang*5,0,0,1); //spin about z-axis
+
+		Draw_Cuboid(0.10,0.10,0.10);
+
+		glTranslatef(0,0.10,0);//move everyting after this line by 40 units along y-axis
+
+		glRotatef(ang*5,0,0,1); //spin about z-axis
+
+		Draw_Cuboid(100,0.10,0.10);
+		int i=0; 
+		for (i = 1; i <= 44; i++) 
+        {
+			
+			test(ang*10);
+
+		} 
 
         // this->window->clear(sf::Color::Cyan);
         
-        this->window->draw(shape);
-        this->window->draw(text);
-
-        
-
+        // this->window->draw(shape);
+   
+        // this->window->draw(text);
         this->window->display();
          
 }
@@ -232,127 +271,13 @@ void Game::run()
 }
 
 
+void test(float ang) {
+		glTranslatef(0.010,0.0,-0.010);//move everyting after this line by 40 units along y-axis
+		glRotatef(ang*0.168,ang*0.168,-0,1); //spin about z-axis
+		// glTranslatef(0.00,-0.10,0);//move everyting after this line by 40 units along y-axis
 
-void cube()
-{
-    // glBegin(GL_QUADS);      // Draw The Cube Using quads
-    
-    // glColor3f(0.0f,1.0f,0.0f);  // Color Green
-    // glNormal3f(0.f, 1.f, 0.f);
-    // glVertex3f( 1.0f, 1.0f,-1.0f);  // Top Right Of The Quad (Top)
-    // glNormal3f(0.f, 1.f, 0.f);
-    // glVertex3f(-1.0f, 1.0f,-1.0f);  // Top Left Of The Quad (Top)
-    // glNormal3f(0.f, 1.f, 0.f);
-    // glVertex3f(-1.0f, 1.0f, 1.0f);  // Bottom Left Of The Quad (Top)
-    // glNormal3f(0.f, 1.f, 0.f);
-    // glVertex3f( 1.0f, 1.0f, 1.0f);  // Bottom Right Of The Quad (Top)
-    
-    // glColor3f(1.0f,0.5f,0.0f);  // Color Orange
-    // glNormal3f(0.f, -1.f, 0.f);
-    // glVertex3f( 1.0f,-1.0f, 1.0f);  // Top Right Of The Quad (Bottom)
-    // glNormal3f(0.f, -1.f, 0.f);
-    // glVertex3f(-1.0f,-1.0f, 1.0f);  // Top Left Of The Quad (Bottom)
-    // glNormal3f(0.f, -1.f, 0.f);
-    // glVertex3f(-1.0f,-1.0f,-1.0f);  // Bottom Left Of The Quad (Bottom)
-    // glNormal3f(0.f, -1.f, 0.f);
-    // glVertex3f( 1.0f,-1.0f,-1.0f);  // Bottom Right Of The Quad (Bottom)
-    
-    // glColor3f(1.0f, 0.0f, 0.0f);    // Color Red
-    // glNormal3f(0.f, 0.f, 1.f);
-    // glVertex3f( 1.0f, 1.0f, 1.0f);  // Top Right Of The Quad (Front)
-    // glNormal3f(0.f, 0.f, 1.f);
-    // glVertex3f(-1.0f, 1.0f, 1.0f);  // Top Left Of The Quad (Front)
-    // glNormal3f(0.f, 0.f, 1.f);
-    // glVertex3f(-1.0f,-1.0f, 1.0f);  // Bottom Left Of The Quad (Front)
-    // glNormal3f(0.f, 0.f, 1.f);
-    // glVertex3f( 1.0f,-1.0f, 1.0f);  // Bottom Right Of The Quad (Front)
-    
-    // glColor3f(1.0f, 1.0f, 0.0f);    // Color Yellow
-    // glNormal3f(0.f, 0.f, -1.f);
-    // glVertex3f( 1.0f,-1.0f,-1.0f);  // Top Right Of The Quad (Back)
-    // glNormal3f(0.f, 0.f, -1.f);
-    // glVertex3f(-1.0f,-1.0f,-1.0f);  // Top Left Of The Quad (Back)
-    // glNormal3f(0.f, 0.f, -1.f);
-    // glVertex3f(-1.0f, 1.0f,-1.0f);  // Bottom Left Of The Quad (Back)
-    // glNormal3f(0.f, 0.f, -1.f);
-    // glVertex3f( 1.0f, 1.0f,-1.0f);  // Bottom Right Of The Quad (Back)
-    
-    // glColor3f(0.0f, 0.0f, 1.0f);    // Color Blue
-    // glNormal3f(-1.f, 0.f, 0.f);
-    // glVertex3f(-1.0f, 1.0f, 1.0f);  // Top Right Of The Quad (Left)
-    // glNormal3f(-1.f, 0.f, 0.f);
-    // glVertex3f(-1.0f, 1.0f,-1.0f);  // Top Left Of The Quad (Left)
-    // glNormal3f(-1.f, 0.f, 0.f);
-    // glVertex3f(-1.0f,-1.0f,-1.0f);  // Bottom Left Of The Quad (Left)
-    // glNormal3f(-1.f, 0.f, 0.f);
-    // glVertex3f(-1.0f,-1.0f, 1.0f);  // Bottom Right Of The Quad (Left)
-    
-    // glColor3f(1.0f, 0.0f, 1.0f);    // Color Violet
-    // glNormal3f(1.f, 0.f, 0.f);
-    // glVertex3f( 1.0f, 1.0f,-1.0f);  // Top Right Of The Quad (Right)
-    // glNormal3f(1.f, 0.f, 0.f);
-    // glVertex3f( 1.0f, 1.0f, 1.0f);  // Top Left Of The Quad (Right)
-    // glNormal3f(1.f, 0.f, 0.f);
-    // glVertex3f( 1.0f,-1.0f, 1.0f);  // Bottom Left Of The Quad (Right)
-    // glNormal3f(1.f, 0.f, 0.f);
-    // glVertex3f( 1.0f,-1.0f,-1.0f);  // Bottom Right Of The Quad (Right)
-    
-    // glEnd();          // End Drawing The Cube
-}
+		Triangle(0.010,0.010,0.010);
+		Draw_Cuboid(0.10,0.10,0.10);
 
-void Draw_Cuboid(float width,float height,float depth){
-		// points of a cube
-	static GLfloat points[][3]={	{1.0f,1.0f,1.0f},
-									{1.0f,1.0f,0.0f},
-									{0.0f,1.0f,0.0f},
-									{0.0f,1.0f,1.0f},
-									{1.0f,0.0f,1.0f},
-									{1.0f,0.0f,0.0f},
-									{0.0f,0.0f,0.0f},
-									{0.0f,0.0f,1.0f}};
 
-		//GLfloat normal[3];
-		glPushMatrix();	
-		glScalef(width,height,depth);
-		glTranslatef(-0.5,-0.5,-0.5);
-		glBegin(GL_QUADS);
-		//top 
-		
-		//NormalVector(points[0],points[1],points[2],normal);
-		//glNormal3fv(normal);
-		glColor3d(1.0,1.0,1.0);
-		glVertex3fv(points[0]); glVertex3fv(points[1]); glVertex3fv(points[2]); glVertex3fv(points[3]);
-		
-		//front
-		//NormalVector(points[0],points[3],points[7],normal);
-		//glNormal3fv(normal);
-		glColor3d(1.0,0.0,1.0);
-		glVertex3fv(points[0]); glVertex3fv(points[3]); glVertex3fv(points[7]); glVertex3fv(points[4]);
-
-		//back
-		//NormalVector(points[1],points[5],points[6],normal);
-		//glNormal3fv(normal);
-		glColor3d(1.0,1.0,0.0);
-		glVertex3fv(points[1]); glVertex3fv(points[5]); glVertex3fv(points[6]); glVertex3fv(points[2]);
-
-		//left
-		//NormalVector(points[3],points[2],points[6],normal);
-		//glNormal3fv(normal);
-		glColor3d(0.0,1.0,0.0);
-		glVertex3fv(points[3]); glVertex3fv(points[2]); glVertex3fv(points[6]); glVertex3fv(points[7]);
-
-		//right
-		//NormalVector(points[1],points[0],points[4],normal);
-		//glNormal3fv(normal);
-		glColor3d(0.0,0.0,1.0);
-		glVertex3fv(points[1]); glVertex3fv(points[0]); glVertex3fv(points[4]); glVertex3fv(points[5]);
-
-		//bottom
-		//NormalVector(points[4],points[7],points[6],normal);
-		//glNormal3fv(normal);
-		glColor3d(1.0,0.0,0.0);
-		glVertex3fv(points[4]); glVertex3fv(points[7]); glVertex3fv(points[6]); glVertex3fv(points[5]);
-
-	glEnd();
-	glPopMatrix();
 }
