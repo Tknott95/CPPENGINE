@@ -63,9 +63,9 @@ void Game::initWindow()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
    
     this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080, 64), "TheZeonTex");
-    // this->window->setVerticalSyncEnabled(true);
-    // this->window->setKeyRepeatEnabled(false);
-    // this->window->requestFocus();
+    this->window->setVerticalSyncEnabled(true);
+    this->window->setKeyRepeatEnabled(false);
+    this->window->requestFocus();
     //window.setVerticalSyncEnabled(true);
 
     //GL settings
