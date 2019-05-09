@@ -214,7 +214,7 @@ glEnd();
     sf::CircleShape shape(100.f);
     
     shape.setFillColor(sf::Color::Blue);
-    text.setFillColor(sf::Color::Magenta);
+    text.setFillColor(sf::Color::Blue);
 
 
            //    this->window->draw(text);
@@ -252,7 +252,7 @@ glEnd();
         this->window->pushGLStates();
 
         this->window->draw(text);
-   this->window->popGLStates();
+        this->window->popGLStates();
         this->window->setActive(true);
         // glDrawPixels(text);
          
