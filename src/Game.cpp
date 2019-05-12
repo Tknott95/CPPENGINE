@@ -182,8 +182,8 @@ void Game::render()
     static float ang=0.0;
 
 
-		glRotatef(ang,1,0,0); //spin about x-axis
-		glRotatef(ang*2,0,1,0);//spin about y-axis
+		// glRotatef(ang,1,0,0); //spin about x-axis
+		// glRotatef(ang*2,0,1,0);//spin about y-axis
 		
 
 		ang+=0.0314f;
@@ -219,32 +219,36 @@ glEnd();
 
            //    this->window->draw(text);
 
+		// Draw_Cuboid(.2,.5,0.50);
 
-		Draw_Cuboid(.2,.5,0.50);
+		// glTranslatef(0,0.40,0);//move everyting after this line by 40 units along y-axis
+		// glRotatef(ang*5,0,0,1); //spin about z-axis
 
-		glTranslatef(0,0.40,0);//move everyting after this line by 40 units along y-axis
-		glRotatef(ang*5,0,0,1); //spin about z-axis
-
-		Draw_Cuboid(-.0910,0.10,0.10);
+		// Draw_Cuboid(-.0910,0.10,0.10);
 		
-		glTranslatef(0,0.10,0);//move everyting after this line by 40 units along y-axis
+		// glTranslatef(0,0.10,0);//move everyting after this line by 40 units along y-axis
 
-		glRotatef(ang*5,0,0,1); //spin about z-axis
+		// glRotatef(ang*5,0,0,1); //spin about z-axis
 
-    glTranslatef(-.5, -0.2, .002);
+    // glTranslatef(-.5, -0.2, .002);
+    // // this->window->resetGLStates();
 
-		Draw_Cuboid(0.10,0.17,0.17);
+		// Draw_Cuboid(0.10,0.17,0.17);
 
 
-		glRotatef(ang*5,0,0,1); //spin about z-axis
+		// glRotatef(ang*5,0,0,1); //spin about z-axis
 
-		Draw_Cuboid(.0100,0.10,0.10);
+		// Draw_Cuboid(.0100,0.10,0.10);
 		int i=0; 
-		for (i = 1; i <= 5944; i++) 
+		for (i = 1; i <= 24444; i++) 
         {
-			Draw_Cuboid(.0100,0.10,0.10);
+      
+			Draw_Cuboid(1.60,1.60,1.60);
+      glRotatef(ang*5,0.1,0.1,1);
+      glTranslatef(0., 0.016, 0);
+      glScalef(0.9314, 0.9314, 0.9314);
 
-			test(ang/10);
+		//	test(ang/i);
 
 		} 
 
@@ -253,6 +257,7 @@ glEnd();
 
         this->window->draw(text);
         this->window->popGLStates();
+			Draw_Cuboid(10,10,10);
         this->window->setActive(true);
         // glDrawPixels(text);
          
@@ -281,12 +286,12 @@ void Game::run()
 
 void test(float ang) {
 
-		glTranslatef(0.010,0.02,-0.010);//move everyting after this line by 40 units along y-axis
-		glRotatef(ang*0.168,ang*0.168,-0,1); //spin about z-axis
+		glTranslatef(ang*0.010,0,-0.0);//move everyting after this line by 40 units along y-axis
+		// glRotatef(ang*0.168,ang*0.168		// glRotatef(ang*0.168,ang*0.168,-0,1); //spin about z-axis  ,-0,1); //spin about z-axis
 		// glTranslatef(0.00,-0.10,0);//move everyting after this line by 40 units along y-axis
-
+    
 		// Triangle(0.010,0.010,0.010);
-		Draw_Cuboid(0.10,0.10,0.10);
+		Draw_Cuboid(0.20,0.20,0.10);
 
 
 }
