@@ -226,17 +226,17 @@ glEnd();
     // Draw_Triangle(.60,.60,.60);
 		// Draw_Cuboid(.0100,0.10,0.10);
 		int i=0; 
-		for (i = 1; i <= 23444; i++) 
+		for (i = 1; i <= 1444; i++) 
         {
           
 
       // Draw_Triangle(1.60,1.60,1.60);
-      glRotatef(ang*15,-i*ang,1*i,1*i);
+      glRotatef(ang*10.5,1.3*ang,3*i,1.3*i);
       glTranslatef(.10, 0.14, -0.10);
 
-      glScalef(0.8314, 0.8314, 0.8314);
+      glScalef(0.7314, 0.8314, 1.0014);
 
-    glViewport(100/i, 100/i, this->window->getSize().x, this->window->getSize().y);
+    //  glViewport(0,0, this->window->getSize().x, this->window->getSize().y);
 			Draw_Cuboid(0.44,0.44,0.44);
 
 
