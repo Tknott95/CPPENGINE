@@ -94,13 +94,7 @@ void Game::initWindow()
  
   sf::Clock clock;
 
-  glViewport(0, 0, this->window->getSize().x, this->window->getSize().y);
 
-  glMatrixMode(GL_PROJECTION); 
-  glLoadIdentity(); 
-
-	glMatrixMode(GL_MODELVIEW); // reset modelview matrix
-	glLoadIdentity();
 
 
 }
@@ -158,17 +152,21 @@ void Game::update()
 
 void Game::render()
 {
-    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //   
-    //     // Apply some transformations 
-        glMatrixMode(GL_MODELVIEW); 
-        glLoadIdentity(); 
+    glViewport(0, 0, this->window->getSize().x, this->window->getSize().y);
+
+  glMatrixMode(GL_PROJECTION); 
+  glLoadIdentity(); 
+
+	glMatrixMode(GL_MODELVIEW); // reset modelview matrix
+	glLoadIdentity();
     
     static float ang=0.0;
-    Camera().MoveCamera(2.0f);
-    Camera().Strafe(5.0f);
+    // Camera().MoveCamera(2.0f);
+    // Camera().Strafe(5.0f);
 
-    Camera().SetViewByMouse(5.0f, 5.0f);
+    // Camera().SetViewByMouse(5.0f, 5.0f);
 
 
 		// glRotatef(ang,1,0,0); //spin about x-axis
@@ -226,23 +224,21 @@ glEnd();
 
 
 
-		glRotatef(ang*5,0,0,1); //spin about z-axis
-    // glRotatef(0,1,ang*100,ang*3);
-    // Draw_Cuboid(1.60,1.60,100.60);
+		// glRotatef(ang*5,3*ang,0,1); //spin about z-axis
+    // // glRotatef(0,1,ang*100,ang*3);
+    // Draw_Cuboid(1.60,1.60,0.010);
     // Draw_Triangle(.60,.60,.60);
 		// Draw_Cuboid(.0100,0.10,0.10);
 		int i=0; 
-		for (i = 1; i <= 44444; i++) 
+		for (i = 1; i <= 4444; i++) 
         {
-          Camera().SetPosition(vec3{i,i,0});
-
-			Draw_Cuboid(0.314,0.16,10.60);
-              glViewport(0 , 0, this->window->getSize().x, this->window->getSize().y);
+          
+			Draw_Cuboid(0.014,0.016,10.60);
+      glViewport(0 , 0, this->window->getSize().x/i, this->window->getSize().y);
 
       // Draw_Triangle(1.60,1.60,1.60);
-
-      // glRotatef(1.628,-0.3,0.7,1);
-      glTranslatef(.10*i, -0.01614*i, 0.10*i);
+      glRotatef(ang*5,3*ang,0,1);
+      glTranslatef(.10, 0.14, 0.10);
       glScalef(0.9314/i, 0.9314/i, 0.9314/i);
 
 
