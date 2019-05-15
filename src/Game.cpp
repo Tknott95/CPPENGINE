@@ -71,7 +71,7 @@ void Game::initWindow()
     settings.majorVersion = 3;
     settings.minorVersion = 0;
    
-    this->window = new sf::RenderWindow(sf::VideoMode(3000, 1920, 64), "TheZeonTex");
+    this->window = new sf::RenderWindow(sf::VideoMode(3000, 1920, 32), "TheZeonTex");
     this->window->setVerticalSyncEnabled(true);
     this->window->setKeyRepeatEnabled(false);
     this->window->requestFocus();
@@ -85,6 +85,7 @@ void Game::initWindow()
   sf::RectangleShape rect;
   rect.setSize(window_res);
   rect.setPosition(0, 0);
+
 
   
 
@@ -163,10 +164,10 @@ void Game::render()
 	glLoadIdentity();
     
     static float ang=0.0;
-    // Camera().MoveCamera(2.0f);
     // Camera().Strafe(5.0f);
 
-    // Camera().SetViewByMouse(5.0f, 5.0f);
+    
+
 
 
 		// glRotatef(ang,1,0,0); //spin about x-axis
@@ -215,12 +216,7 @@ glEnd();
 		
 		// glTranslatef(0,0.10,0);//move everyting after this line by 40 units along y-axis
 
-		// glRotatef(ang*5,0,0,1); //spin about z-axis
 
-    // glTranslatef(-.5, -0.2, .002);
-    // // this->window->resetGLStates();
-
-		// Draw_Cuboid(0.10,0.17,0.17);
 
 
 
@@ -230,24 +226,26 @@ glEnd();
     // Draw_Triangle(.60,.60,.60);
 		// Draw_Cuboid(.0100,0.10,0.10);
 		int i=0; 
-		for (i = 1; i <= 4444; i++) 
+		for (i = 1; i <= 23444; i++) 
         {
           
-			Draw_Cuboid(0.014,0.016,10.60);
-      glViewport(0 , 0, this->window->getSize().x/i, this->window->getSize().y);
 
       // Draw_Triangle(1.60,1.60,1.60);
-      glRotatef(ang*5,3*ang,0,1);
-      glTranslatef(.10, 0.14, 0.10);
-      glScalef(0.9314/i, 0.9314/i, 0.9314/i);
+      glRotatef(ang*15,-i*ang,1*i,1*i);
+      glTranslatef(.10, 0.14, -0.10);
 
+      glScalef(0.8314, 0.8314, 0.8314);
+
+    glViewport(100/i, 100/i, this->window->getSize().x, this->window->getSize().y);
+			Draw_Cuboid(0.44,0.44,0.44);
 
 
 		//	test(ang/i);        glBlendColor(1.0f,1.0f,1.0f, 0.8f);
 
 
 		} 
-      // Draw_Triangle(1.60,1.60,1.      // Draw_Triangle(1.60,1.60,1.60);
+      // Draw_Triangle(1.60,1			Draw_Cuboid(0.014,0.016,0.60);
+    // Draw_Triangle(1.60,1.60,1.60);
 
 
           // Draw_Triangle(1.60,1.60,1.60);
