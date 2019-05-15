@@ -1,6 +1,7 @@
 #include "headers/Game.h"
 #include <SFML/OpenGL.hpp>
 #include "headers/Assets.h"
+#include "Camera.cpp"
 #include "SFML/Graphics.hpp"
 #include <SFML/OpenGL.hpp>
 #include <SFML/Window.hpp>
@@ -64,7 +65,7 @@ void Game::initWindow()
     //GL settings
     sf::ContextSettings settings;
     
-    settings.depthBits = 64;
+    settings.depthBits = 128;
     // settings.stencilBits = 8;
     settings.antialiasingLevel = 4;
     settings.majorVersion = 3;
@@ -74,45 +75,29 @@ void Game::initWindow()
     this->window->setVerticalSyncEnabled(true);
     this->window->setKeyRepeatEnabled(false);
     this->window->requestFocus();
-    //window.setVerticalSyncEnabled(true);
 
- 
-
-     const sf::Glsl::Vec2 window_res((float)this->window->getSize().x, (float)this->window->getSize().y);
-    //  shader.setUniform("iResolution", window_res);
-    //  scene.Write(shader);
+  // CAMERA INIT
+  const sf::Glsl::Vec2 window_res((float)this->window->getSize().x, (float)this->window->getSize().y);
+  //  shader.setUniform("iResolution", window_res);
+  //  scene.Write(shader);
 
   //Create screen rectangle
   sf::RectangleShape rect;
   rect.setSize(window_res);
   rect.setPosition(0, 0);
 
+  
 
-    // @TODO: RESOLUTION SELECTION SCREEN
-    const sf::Vector2i screen_center(3000/2, 1920/ 2);
-    //const sf::Vector2i screen_center(resolution->width / 2, resolution->height / 2);
 
-    // glEnable(GL_TEXTURE_2D);
+  // @TODO: RESOLUTION SELECTION SCREEN
+  const sf::Vector2i screen_center(3000/2, 1920/ 2);
+ 
+  sf::Clock clock;
 
-        // Create a clock for measuring time elapsed
-    sf::Clock clock;
-	
-    //prepare OpenGL surface for HSR
-	// glClearDepth(1.f);
-    // glClearColor(0.3f, 0.3f, 0.3f, 0.f);
-    // glEnable(GL_DEPTH_TEST);
-    // glDepthMask(GL_TRUE);
-   // Configure the viewport (the same size as the window)
-    glViewport(0, 0, this->window->getSize().x, this->window->getSize().y);
+  glViewport(0, 0, this->window->getSize().x, this->window->getSize().y);
 
-    //prepare OpenGL surface for HSR 
-    // glClearDepth(1.f); 
-    // glClearColor(0.3f, 0.3f, 0.3f, 0.f); //background colour
-    // glEnable(GL_DEPTH_TEST); 
-    // glDepthMask(GL_TRUE);
-    //// Setup a perspective projection & Camera position 
-    glMatrixMode(GL_PROJECTION); 
-    glLoadIdentity(); 
+  glMatrixMode(GL_PROJECTION); 
+  glLoadIdentity(); 
 
 	glMatrixMode(GL_MODELVIEW); // reset modelview matrix
 	glLoadIdentity();
@@ -180,6 +165,10 @@ void Game::render()
         glLoadIdentity(); 
     
     static float ang=0.0;
+    Camera().MoveCamera(2.0f);
+    Camera().Strafe(5.0f);
+
+    Camera().SetViewByMouse(5.0f, 5.0f);
 
 
 		// glRotatef(ang,1,0,0); //spin about x-axis
@@ -208,13 +197,13 @@ glEnd();
       return;
     }
 
-    sf::Text text("the TEX SFML", font, 100);
+    sf::Text text("REPULSIONISM - theory visuals", font, 100);
 
 
     sf::CircleShape shape(100.f);
     
     shape.setFillColor(sf::Color::Blue);
-    text.setFillColor(sf::Color::Blue);
+    text.setFillColor(sf::Color::Cyan);
 
 
            //    this->window->draw(text);
@@ -236,36 +225,53 @@ glEnd();
 		// Draw_Cuboid(0.10,0.17,0.17);
 
 
-		// glRotatef(ang*5,0,0,1); //spin about z-axis
 
+		glRotatef(ang*5,0,0,1); //spin about z-axis
+    // glRotatef(0,1,ang*100,ang*3);
+    // Draw_Cuboid(1.60,1.60,100.60);
+    // Draw_Triangle(.60,.60,.60);
 		// Draw_Cuboid(.0100,0.10,0.10);
 		int i=0; 
-		for (i = 1; i <= 24444; i++) 
+		for (i = 1; i <= 44444; i++) 
         {
-      
-			Draw_Cuboid(1.60,1.60,1.60);
-      glRotatef(ang*5,0.1,0.1,1);
-      glTranslatef(0., 0.016, 0);
-      glScalef(0.9314, 0.9314, 0.9314);
+          Camera().SetPosition(vec3{i,i,0});
 
-		//	test(ang/i);
+			Draw_Cuboid(0.314,0.16,10.60);
+              glViewport(0 , 0, this->window->getSize().x, this->window->getSize().y);
+
+      // Draw_Triangle(1.60,1.60,1.60);
+
+      // glRotatef(1.628,-0.3,0.7,1);
+      glTranslatef(.10*i, -0.01614*i, 0.10*i);
+      glScalef(0.9314/i, 0.9314/i, 0.9314/i);
+
+
+
+		//	test(ang/i);        glBlendColor(1.0f,1.0f,1.0f, 0.8f);
+
 
 		} 
+      // Draw_Triangle(1.60,1.60,1.      // Draw_Triangle(1.60,1.60,1.60);
 
-        // this->window->clear(sf::Color::Cyan);
+
+          // Draw_Triangle(1.60,1.60,1.60);
+
+
+
         this->window->pushGLStates();
 
-        this->window->draw(text);
+        this->window->draw(text);  glViewport(0, 0, this->window->getSize().x, this->window->getSize().y);
+
         this->window->popGLStates();
-			Draw_Cuboid(10,10,10);
+			
         this->window->setActive(true);
-        // glDrawPixels(text);
+        //glDrawPixels(text);
          
 }
 
 void Game::run()
 {
-      sf::Clock clock;
+  sf::Clock clock;
 
   float smooth_fps = target_fps;
   float lag_ms = 0.0f;
@@ -279,6 +285,8 @@ void Game::run()
         this->render();
         this->window->display();
 
+        
+
  
     }
 }
@@ -286,7 +294,7 @@ void Game::run()
 
 void test(float ang) {
 
-		glTranslatef(ang*0.010,0,-0.0);//move everyting after this line by 40 units along y-axis
+		glTranslatef(ang*0.0314,0,-0.0);//move everyting after this line by 40 units along y-axis
 		// glRotatef(ang*0.168,ang*0.168		// glRotatef(ang*0.168,ang*0.168,-0,1); //spin about z-axis  ,-0,1); //spin about z-axis
 		// glTranslatef(0.00,-0.10,0);//move everyting after this line by 40 units along y-axis
     
