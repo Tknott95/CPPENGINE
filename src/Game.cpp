@@ -63,13 +63,18 @@ void Game::initWindow()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
     //GL settings
-    sf::ContextSettings settings;
-    
+    //sf::ContextSettings settings;
+    sf::ContextSettings settings; // = this->window->getSettings();
     settings.depthBits = 128;
-    // settings.stencilBits = 8;
+    settings.stencilBits = 8;
     settings.antialiasingLevel = 4;
     settings.majorVersion = 3;
     settings.minorVersion = 0;
+
+    std::cout << "depth bits:" << settings.depthBits << std::endl;
+    std::cout << "stencil bits:" << settings.stencilBits << std::endl;
+    std::cout << "antialiasing level:" << settings.antialiasingLevel << std::endl;
+    std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion << std::endl;
    
     this->window = new sf::RenderWindow(sf::VideoMode(3000, 1920, 32), "TheZeonTex");
     this->window->setVerticalSyncEnabled(true);
@@ -78,8 +83,8 @@ void Game::initWindow()
 
   // CAMERA INIT
   const sf::Glsl::Vec2 window_res((float)this->window->getSize().x, (float)this->window->getSize().y);
-  //  shader.setUniform("iResolution", window_res);
-  //  scene.Write(shader);
+ // shader.setUniform("iResolution", window_res);
+  //scene.Write(shader);
 
   //Create screen rectangle
   sf::RectangleShape rect;
@@ -221,43 +226,25 @@ glEnd();
 
 
 		// glRotatef(ang*5,3*ang,0,1); //spin about z-axis
-    // // glRotatef(0,1,ang*100,ang*3);
-    // Draw_Cuboid(1.60,1.60,0.010);
+    glRotatef(0,1,ang*100,ang*3);
+    Draw_Cuboid(0.10,0,0);
     // Draw_Triangle(.60,.60,.60);
 		// Draw_Cuboid(.0100,0.10,0.10);
 		int i=0; 
 		for (i = 1; i <= 1444; i++) 
-        {
-          
+      {
+        glRotatef(ang*10.5,-1.3*ang,3*i,1.3*i);
+        glTranslatef(.10, 0.14, -0.10);
 
-      // Draw_Triangle(1.60,1.60,1.60);
-      glRotatef(ang*10.5,1.3*ang,3*i,1.3*i);
-      glTranslatef(.10, 0.14, -0.10);
-
-      glScalef(0.7314, 0.8314, 1.0014);
+        glScalef(0.7314, 0.8314, 1.0014);
 
     //  glViewport(0,0, this->window->getSize().x, this->window->getSize().y);
 			Draw_Cuboid(0.44,0.44,0.44);
 
-
-		//	test(ang/i);        glBlendColor(1.0f,1.0f,1.0f, 0.8f);
-
-
 		} 
-      // Draw_Triangle(1.60,1			Draw_Cuboid(0.014,0.016,0.60);
-    // Draw_Triangle(1.60,1.60,1.60);
-
-
-          // Draw_Triangle(1.60,1.60,1.60);
-
-
-
         this->window->pushGLStates();
-
         this->window->draw(text);  glViewport(0, 0, this->window->getSize().x, this->window->getSize().y);
-
         this->window->popGLStates();
-			
         this->window->setActive(true);
         //glDrawPixels(text);
          
@@ -294,6 +281,5 @@ void test(float ang) {
     
 		// Triangle(0.010,0.010,0.010);
 		Draw_Cuboid(0.20,0.20,0.10);
-
 
 }
